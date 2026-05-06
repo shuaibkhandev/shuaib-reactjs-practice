@@ -1,13 +1,10 @@
 import React from "react";
-import MovieCard from "./components/MovieCard";
+import MoviesData from "./components/MoviesData";
 
 const App = () => {
   return (
     <div>
-    <MovieCard/>
-    <MovieCard/>
-    <MovieCard/>
-    <MovieCard/>
+    <MoviesData/>
     </div>
   );
 };
