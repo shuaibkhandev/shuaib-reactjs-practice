@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './Todo.css';
 
 import TodoDateTime from './TodoDateTime';
@@ -7,13 +7,18 @@ import TodoList from './TodoList';
 
 function TodoApp() {
 
-  const [todoList, setTodoList] = useState([]);
+  const [todoList, setTodoList] = useState(()=>{
+    const todoList = localStorage.getItem("todoList");
+    return todoList ? JSON.parse(todoList) : [];
+  });
 
-
+  useEffect(()=>{
+        localStorage.setItem("todoList", JSON.stringify(todoList))
+  },[todoList])
 
   const handleDeleteTask = (taskToDelet) => {
     alert(`Are you want to delete "${taskToDelet}"`)
-    const updatedTodoList = todoList.filter((task)=> task !== taskToDelet);
+    const updatedTodoList = todoList.filter((currentTask)=> currentTask.task !== taskToDelet);
     console.log(updatedTodoList);
     setTodoList(updatedTodoList)
     
@@ -26,7 +31,7 @@ function TodoApp() {
       <TodoDateTime />
       <div className="todo-form-container">
       <TodoForm todoList={todoList} setTodoList={setTodoList}/>
-      <TodoList todoList={todoList} handleDeleteTask={handleDeleteTask}/>
+      <TodoList todoList={todoList} handleDeleteTask={handleDeleteTask} setTodoList={setTodoList}/>
       </div>
     </section>
   )
